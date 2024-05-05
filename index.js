@@ -20,7 +20,7 @@ const sequelize = new Sequelize(
     username,
     password,
     {
-        dialect: 'mysql',
+        dialect: 'postgres',
         host: host
     });
 

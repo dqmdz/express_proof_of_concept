@@ -1,17 +1,14 @@
 services:
 
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: postgres:alpine
     ports:
-        - 3306:3306
+      - 5432:5432
     volumes:
-        - /tmp/data/:/var/lib/mysql
-        - /etc/localtime:/etc/localtime:ro
-        - /etc/timezone:/etc/timezone:ro
-    restart: always
+      - /tmp/data:/var/lib/postgresql/data
     environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - TZ=America/Argentina/Mendoza
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
     networks:
       - express-app
 
@@ -22,12 +19,12 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mysql
+      - postgres
     environment:
       - DATABASE_NAME=app
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=root
-      - DATABASE_HOST=mysql
+      - DATABASE_HOST=postgres
     networks:
       - express-app
 
