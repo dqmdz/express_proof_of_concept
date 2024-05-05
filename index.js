@@ -7,12 +7,22 @@ const app = express();
 const port = 3000;
 
 config();
-const filename = process.env.FILENAME
-console.log(filename)
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: filename
-});
+const database = process.env.DATABASE_NAME
+console.log(database)
+const username = process.env.DATABASE_USERNAME
+console.log(username)
+const password = process.env.DATABASE_PASSWORD
+console.log(password)
+const host = process.env.DATABASE_HOST
+console.log(host)
+const sequelize = new Sequelize(
+    database,
+    username,
+    password,
+    {
+        dialect: 'mysql',
+        host: host
+    });
 
 class User extends Model { }
 User.init({

@@ -1,9 +1,35 @@
 services:
+
+  mysql:
+    image: mysql:latest
+    ports:
+        - 3306:3306
+    volumes:
+        - /tmp/data/:/var/lib/mysql
+        - /etc/localtime:/etc/localtime:ro
+        - /etc/timezone:/etc/timezone:ro
+    restart: always
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - TZ=America/Argentina/Mendoza
+    networks:
+      - express-app
+
   app:
     build:
       context: .
     restart: always
     ports:
       - "3000:3000"
+    depends_on:
+      - mysql
     environment:
-      - FILENAME='/tmp/database.sqlite'
+      - DATABASE_NAME=app
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_HOST=mysql
+    networks:
+      - express-app
+
+networks:
+  express-app:
